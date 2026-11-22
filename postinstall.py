@@ -325,6 +325,9 @@ def build_categories() -> Dict[str, List[MenuItem]]:
             MenuItem("fish-cfg", "Fish + prompt config", "Saját shell beállítások másolása", make_handler("Fish config")),
             MenuItem("dconf-dump", "GNOME dconf profil", "Mentett asztali beállítások", make_handler("GNOME dconf")),
         ],
+        "System": [
+            MenuItem("Start GDM", "Start GDM", "Indítsa el a GDM-et a bejelentkezéshez", run_cmd(["sudo", "systemctl", "enable", "gdm", "--now"], False)),
+        ]
     }
 
     return {cat: [item for item in items if item is not None] for cat, items in raw.items()}
