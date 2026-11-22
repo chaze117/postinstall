@@ -91,6 +91,7 @@ add_app "Böngészők" "Vivaldi" flatpak com.vivaldi.Vivaldi 0
 add_app "Eszközök" "7-Zip (p7zip)" apt p7zip-full 0
 add_app "Eszközök" "GParted" apt gparted 0
 add_app "Eszközök" "htop" apt htop 0
+add_app "Eszközök" "btop" apt btop 0
 add_app "Eszközök" "Synaptic" apt synaptic 0
 add_app "Eszközök" "Timeshift" apt timeshift 0
 add_app "Eszközök" "Flatseal" flatpak com.github.tchx84.Flatseal 0
