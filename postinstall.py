@@ -68,6 +68,9 @@ def make_handler(label: str, pkgs: List[str] | None = None, type: str | None = N
         return f"[DRY-RUN] {label}" if dry_run else f"[OK] {label}"
     return _fn
 
+def enableGDM(dry_run: bool) -> str:
+    return run_cmd(["sudo", "systemctl", "enable", "gdm", "--now"], dry_run)
+
 
 class SplitPostInstallTUI:
     def __init__(self, categories: Dict[str, List[MenuItem]], dry_run: bool = False, log_path: str = "/tmp/postinstall.log"):
@@ -326,7 +329,7 @@ def build_categories() -> Dict[str, List[MenuItem]]:
             MenuItem("dconf-dump", "GNOME dconf profil", "Mentett asztali beállítások", make_handler("GNOME dconf")),
         ],
         "System": [
-            MenuItem("Start GDM", "Start GDM", "Indítsa el a GDM-et a bejelentkezéshez", run_cmd(["sudo", "systemctl", "enable", "gdm", "--now"], False)),
+            MenuItem("Start GDM", "Start GDM", "Indítsa el a GDM-et a bejelentkezéshez", enableGDM(False)),
         ]
     }
 
@@ -343,4 +346,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    main()s
