@@ -257,11 +257,6 @@ class SplitPostInstallTUI:
             elif key in (ord("r"), ord("R")):
                 self.run_selected(stdscr)
 
-def psysonic(distro) -> MenuItem:
-    if distro not in ("arch", "manjaro"):
-        return MenuItem("Psysonic", "Psysonic zenelejátszó", "Zenelejátszó és podcast kezelő", make_handler("Psysonic", ["psysonic"], "pkg"))
-    else:
-        return MenuItem("Psysonic", "Psysonic zenelejátszó", "Zenelejátszó és podcast kezelő", make_handler("Psysonic", ["psysonic"], "yay"))
 def menuByDistro(distro, NonArchMenu: MenuItem, ArchMenu: MenuItem | None = None) -> MenuItem:
     if distro in ("arch", "manjaro"):
         return ArchMenu
@@ -270,9 +265,9 @@ def menuByDistro(distro, NonArchMenu: MenuItem, ArchMenu: MenuItem | None = None
 def build_categories() -> Dict[str, List[MenuItem]]:
     raw: Dict[str, List[MenuItem | None]] = {
         "Desktop env": [
-            MenuItem("gnome-android", "GNOME Android Like", "Minimális GNOME csomagok sallang nélkül", make_handler("GNOME Core", ["gnome","gdm","gnome-shell-extension-appindicator", "gnome-shell-extension-dash-to-panel"], "pkg")),
-            MenuItem("gnome-windows", "GNOME Windows Like", "GNOME csomagok Windows stílusú elrendezéssel", make_handler("GNOME Core", ["gnome","gdm","gnome-shell-extension-appindicator", "gnome-shell-extension-dash-to-panel"], "pkg")),
-            MenuItem("gnome-custom", "Gnome Egyedi", "GNOME csomagok egyedi elrendezéssel", make_handler("GNOME Core", ["gnome","gdm","gnome-shell-extension-appindicator", "gnome-shell-extension-arc-menu"], "pkg")),
+            MenuItem("gnome-android", "GNOME Android Like", "Minimális GNOME csomagok sallang nélkül", make_handler("GNOME Core", ["gnome","gdm","extension-manager","gnome-shell-extension-appindicator", "gnome-shell-extension-dash-to-panel"], "pkg")),
+            MenuItem("gnome-windows", "GNOME Windows Like", "GNOME csomagok Windows stílusú elrendezéssel", make_handler("GNOME Core", ["gnome","gdm","extension-manager","gnome-shell-extension-appindicator", "gnome-shell-extension-dash-to-panel"], "pkg")),
+            MenuItem("gnome-custom", "Gnome Egyedi", "GNOME csomagok egyedi elrendezéssel", make_handler("GNOME Core", ["gnome","gdm","extension-manager","gnome-shell-extension-appindicator", "gnome-shell-extension-arc-menu"], "pkg")),
             MenuItem("a11y", "Kisegítő / skálázás", "Nagyobb betű/UI és kontraszt", make_handler("A11y & Scaling")),
         ],
         "Böngészők": [
@@ -346,4 +341,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()s
+    main()
