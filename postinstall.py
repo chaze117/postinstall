@@ -68,8 +68,17 @@ def make_handler(label: str, pkgs: List[str] | None = None, type: str | None = N
         return f"[DRY-RUN] {label}" if dry_run else f"[OK] {label}"
     return _fn
 
-def enableGDM(dry_run: bool) -> str:
-    return run_cmd(["sudo", "systemctl", "enable", "gdm", "--now"], dry_run)
+def enableGDM(dry_run: bool) -> Callable[[bool], str]:
+    def _fn(dry_run: bool) -> str:
+        return run_cmd(["sudo", "systemctl", "enable", "gdm", "--now"], dry_run)
+    return _fn
+
+def gnome_android(dry_run: bool) -> Callable[[bool], str]:
+    def _fn(dry_run: bool) -> str:
+        pkg_install(["gnome","gdm","extension-manager","gnome-shell-extension-appindicator","python-pip" ], "pkg", dry_run)
+        run_cmd(["pip", "install", "gnome-extensions-cli", "--break-system-packages"], dry_run)
+        return run_cmd(["gnome-extensions-cli","install", "enable", "dash-to-dock@micxgx.gmail.com"], dry_run)
+    return _fn
 
 
 class SplitPostInstallTUI:
@@ -265,7 +274,7 @@ def menuByDistro(distro, NonArchMenu: MenuItem, ArchMenu: MenuItem | None = None
 def build_categories() -> Dict[str, List[MenuItem]]:
     raw: Dict[str, List[MenuItem | None]] = {
         "Desktop env": [
-            MenuItem("gnome-android", "GNOME Android Like", "Minimális GNOME csomagok sallang nélkül", make_handler("GNOME Core", ["gnome","gdm","extension-manager","gnome-shell-extension-appindicator", "gnome-shell-extension-dash-to-panel"], "pkg")),
+            MenuItem("gnome-android", "GNOME Android Like", "Minimális GNOME csomagok sallang nélkül", make_handler("GNOME Core", ["gnome","gdm","extension-manager","gnome-shell-extension-appindicator" ], "pkg")),
             MenuItem("gnome-windows", "GNOME Windows Like", "GNOME csomagok Windows stílusú elrendezéssel", make_handler("GNOME Core", ["gnome","gdm","extension-manager","gnome-shell-extension-appindicator", "gnome-shell-extension-dash-to-panel"], "pkg")),
             MenuItem("gnome-custom", "Gnome Egyedi", "GNOME csomagok egyedi elrendezéssel", make_handler("GNOME Core", ["gnome","gdm","extension-manager","gnome-shell-extension-appindicator", "gnome-shell-extension-arc-menu"], "pkg")),
             MenuItem("a11y", "Kisegítő / skálázás", "Nagyobb betű/UI és kontraszt", make_handler("A11y & Scaling")),
